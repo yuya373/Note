@@ -10,16 +10,19 @@ import UIKit
 import SwiftyDropbox
 
 class ListViewController: UIViewController {
+    @IBOutlet weak var tableView: UITableView!
     var files = [Files.Metadata]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        DropboxCache.instance.files {
-            self.files = $0
-            self.files.map { file in
-                print("\(file.name), \(file.description)")
-            }
+        tableView.delegate = self
+        tableView.dataSource = self
+        navigationItem.title = "Dropbox/"
+        DropboxCache.instance.files(path: "") {
+            print("files: \($0.count)")
+            self.files = $0.filter(DropboxCache.folderOrMarkDownOrOrg)
+            print("files: \(self.files.count)")
+            self.tableView.reloadData()
         }
     }
 
@@ -39,4 +42,29 @@ class ListViewController: UIViewController {
     }
     */
 
+}
+
+extension ListViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print("numberOfRows: \(files.count)")
+        return files.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let file = files[indexPath.row]
+        let id = "FileTableViewCell"
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: id) as? FileTableViewCell else {
+            fatalError("failed to dequeue cell.")
+        }
+        cell.titleLabel.text = file.name
+        if (DropboxCache.isFolder(file)) {
+            cell.accessoryType = .disclosureIndicator
+        } else {
+            cell.accessoryType = .detailDisclosureButton
+        }
+        return cell
+    }
+}
+
+extension ListViewController: UITableViewDelegate {
 }

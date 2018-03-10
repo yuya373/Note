@@ -10,6 +10,20 @@ import SwiftyDropbox
 final class DropboxCache {
     static let instance = DropboxCache()
     
+    
+    static let isFolder: (Files.Metadata) -> Bool = { file in
+        file is Files.FolderMetadata
+    }
+    static let isMarkDown: (Files.Metadata) -> Bool = { file in
+        file.name.hasSuffix(".md")
+    }
+    static let isOrg: (Files.Metadata) -> Bool = { file in
+        file.name.hasSuffix(".org")
+    }
+    static let folderOrMarkDownOrOrg: (Files.Metadata) -> Bool = { file in
+        isFolder(file) || isMarkDown(file) || isOrg(file)
+    }
+    
     private var cachedFiles = [Files.Metadata]()
     private init() {}
     
@@ -17,12 +31,12 @@ final class DropboxCache {
         return DropboxClientsManager.authorizedClient
     }
     
-    func files(refresh: Bool = false, _ handler: @escaping ([Files.Metadata]) -> Void) {
+    func files(path: String, refresh: Bool = false, _ handler: @escaping ([Files.Metadata]) -> Void) {
         if (!refresh && cachedFiles.count > 0) {
             handler(cachedFiles)
         } else {
-            client().map { client in
-                client.files.listFolder(path: "", recursive: false, includeMediaInfo: true, includeDeleted: false, includeHasExplicitSharedMembers: false, includeMountedFolders: false, limit: 50, sharedLink: nil, includePropertyGroups: nil).response { result, error in
+            // client().map { client in
+                DropboxClientsManager.authorizedClient!.files.listFolder(path: path, recursive: false, includeMediaInfo: true, includeDeleted: false, includeHasExplicitSharedMembers: false, includeMountedFolders: false, limit: 50, sharedLink: nil, includePropertyGroups: nil).response { result, error in
                     result.map { result in
                         self.cachedFiles = result.entries
                         
@@ -36,7 +50,7 @@ final class DropboxCache {
                         fatalError("listFolder failed. \(error.description)")
                     }
                 }
-            }
+            // }
         }
     }
     
