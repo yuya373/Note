@@ -18,11 +18,9 @@ class ViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         if (DropboxClientsManager.authorizedClient != nil) {
-            let id = "AuthenticatedTop"
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            if let vc = storyboard.instantiateViewController(withIdentifier: id) as? UITabBarController {
-                UIApplication.shared.delegate?.window??.rootViewController?.present(vc, animated: false, completion: nil)
-            }
+            self.pushToAuthenticatedTop()
+        } else {
+            print("authorizedClient is nil")
         }
     }
 
@@ -33,8 +31,14 @@ class ViewController: UIViewController {
 
     // MARK: - Actions
     @IBAction func authorize(_ sender: UIButton) {
-            DropboxClientsManager.authorizeFromController(UIApplication.shared, controller: self, openURL: { UIApplication.shared.open($0) })
-
+        DropboxClientsManager.authorizeFromController(UIApplication.shared, controller: self, openURL: { UIApplication.shared.open($0) })
+    }
+    
+    private func pushToAuthenticatedTop() {
+        let id = "AuthenticatedTop"
+        if let vc = storyboard?.instantiateViewController(withIdentifier: id) as? UITabBarController {
+            UIApplication.shared.delegate?.window??.rootViewController?.present(vc, animated: false, completion: nil)
+        }
     }
 }
 

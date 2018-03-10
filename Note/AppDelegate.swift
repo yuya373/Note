@@ -27,6 +27,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let authResult = DropboxClientsManager.handleRedirectURL(url) {
             switch authResult {
             case .success:
+                let id = "AuthenticatedTop"
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                if let vc = storyboard.instantiateViewController(withIdentifier: id) as? UITabBarController {
+                    UIApplication.shared.delegate?.window??.rootViewController?.present(vc, animated: false, completion: nil)
+                }
                 print("Success")
             case .cancel:
                 print("Canceled")
@@ -60,6 +65,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
         self.saveContext()
+        DropboxClientsManager.unlinkClients()
     }
 
     // MARK: - Core Data stack
