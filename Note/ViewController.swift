@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyDropbox
 
 class ViewController: UIViewController {
 
@@ -15,11 +16,25 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        if (DropboxClientsManager.authorizedClient != nil) {
+            let id = "AuthenticatedTop"
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            if let vc = storyboard.instantiateViewController(withIdentifier: id) as? UITabBarController {
+                UIApplication.shared.delegate?.window??.rootViewController?.present(vc, animated: false, completion: nil)
+            }
+        }
+    }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
+    // MARK: - Actions
+    @IBAction func authorize(_ sender: UIButton) {
+            DropboxClientsManager.authorizeFromController(UIApplication.shared, controller: self, openURL: { UIApplication.shared.open($0) })
 
+    }
 }
 

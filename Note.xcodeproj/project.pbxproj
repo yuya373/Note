@@ -14,6 +14,10 @@
 		648742372052D4A2005838CA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 648742362052D4A2005838CA /* Assets.xcassets */; };
 		6487423A2052D4A2005838CA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 648742382052D4A2005838CA /* LaunchScreen.storyboard */; };
 		648742452052D4A2005838CA /* NoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648742442052D4A2005838CA /* NoteTests.swift */; };
+		648742522052DDE9005838CA /* SwiftyDropbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 648742502052DDE9005838CA /* SwiftyDropbox.framework */; };
+		648742532052DDE9005838CA /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 648742512052DDE9005838CA /* Alamofire.framework */; };
+		648742562053CCFB005838CA /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648742552053CCFB005838CA /* ListViewController.swift */; };
+		648742582053D275005838CA /* DropboxCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648742572053D275005838CA /* DropboxCache.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +42,10 @@
 		648742402052D4A2005838CA /* NoteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NoteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		648742442052D4A2005838CA /* NoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteTests.swift; sourceTree = "<group>"; };
 		648742462052D4A2005838CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		648742502052DDE9005838CA /* SwiftyDropbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyDropbox.framework; path = Carthage/Build/iOS/SwiftyDropbox.framework; sourceTree = "<group>"; };
+		648742512052DDE9005838CA /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
+		648742552053CCFB005838CA /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
+		648742572053D275005838CA /* DropboxCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropboxCache.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +53,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				648742522052DDE9005838CA /* SwiftyDropbox.framework in Frameworks */,
+				648742532052DDE9005838CA /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,6 +74,7 @@
 				6487422B2052D4A2005838CA /* Note */,
 				648742432052D4A2005838CA /* NoteTests */,
 				6487422A2052D4A2005838CA /* Products */,
+				6487424F2052DDE8005838CA /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -81,6 +92,8 @@
 			children = (
 				6487422C2052D4A2005838CA /* AppDelegate.swift */,
 				6487422E2052D4A2005838CA /* ViewController.swift */,
+				648742552053CCFB005838CA /* ListViewController.swift */,
+				648742572053D275005838CA /* DropboxCache.swift */,
 				648742302052D4A2005838CA /* Main.storyboard */,
 				648742362052D4A2005838CA /* Assets.xcassets */,
 				648742382052D4A2005838CA /* LaunchScreen.storyboard */,
@@ -99,6 +112,15 @@
 			path = NoteTests;
 			sourceTree = "<group>";
 		};
+		6487424F2052DDE8005838CA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				648742512052DDE9005838CA /* Alamofire.framework */,
+				648742502052DDE9005838CA /* SwiftyDropbox.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -109,6 +131,7 @@
 				648742252052D4A1005838CA /* Sources */,
 				648742262052D4A1005838CA /* Frameworks */,
 				648742272052D4A1005838CA /* Resources */,
+				648742542052DE16005838CA /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -197,6 +220,24 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		648742542052DE16005838CA /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/SwiftyDropbox.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		648742252052D4A1005838CA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -204,6 +245,8 @@
 			files = (
 				648742352052D4A2005838CA /* Note.xcdatamodeld in Sources */,
 				6487422F2052D4A2005838CA /* ViewController.swift in Sources */,
+				648742582053D275005838CA /* DropboxCache.swift in Sources */,
+				648742562053CCFB005838CA /* ListViewController.swift in Sources */,
 				6487422D2052D4A2005838CA /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -359,6 +402,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = C7E2H765FT;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Note/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = yuya373.Note;
@@ -374,6 +421,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = C7E2H765FT;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Note/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = yuya373.Note;
