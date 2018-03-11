@@ -149,4 +149,19 @@ extension ListViewController: UITableViewDelegate {
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        let isFolder = indexPath.section == 0
+        if (isFolder) {
+            print("Folder accessoryButton Tapped")
+        } else {
+            print("File accessoryButton Tapped")
+            let file = files[indexPath.row]
+            let message = file.description_
+            let alert = UIAlertController(title: file.pathDisplay, message: message, preferredStyle: .alert)
+            let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alert.addAction(ok)
+            present(alert, animated: true, completion: nil)
+        }
+    }
 }
