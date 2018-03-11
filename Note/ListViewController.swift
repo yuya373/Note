@@ -12,7 +12,8 @@ import SwiftyDropbox
 class ListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
-    var files = [Files.Metadata]()
+    var files = [Files.FileMetadata]()
+    var folders = [Files.FolderMetadata]()
     var path = ""
 
     override func viewDidLoad() {
@@ -27,7 +28,8 @@ class ListViewController: UIViewController {
         activityIndicatorView.startAnimating()
         
         DropboxCache.instance.files(path: self.path) {
-            self.files = $0.filter { f in !(DropboxCache.hasMedia(f)) }
+            self.files = $0.filter { f in !(DropboxCache.isFolder(f)) && !(DropboxCache.hasMedia(f)) }.map { $0 as! Files.FileMetadata }.reversed()
+            self.folders = $0.filter { f in DropboxCache.isFolder(f) }.map { $0 as! Files.FolderMetadata }
             
             self.activityIndicatorView.stopAnimating()
             
@@ -73,19 +75,33 @@ class ListViewController: UIViewController {
 }
 
 extension ListViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("numberOfRows: \(files.count)")
-        return files.count
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
     }
     
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if (section == 0) {
+            return "Folders"
+        }
+        return "Files"
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if (section == 0) {
+            return folders.count
+        }
+        return files.count
+    }
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let file = files[indexPath.row]
-        let isFolder = DropboxCache.isFolder(file)
+        let isFolder = indexPath.section == 0
+        
         if (isFolder) {
             let id = "FolderTableViewCell"
             guard let cell = tableView.dequeueReusableCell(withIdentifier: id) as? FolderTableViewCell else {
                 fatalError("failed to dequeue cell.")
             }
+            let file = folders[indexPath.row]
             cell.file = file
             return cell
         } else {
@@ -93,6 +109,7 @@ extension ListViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: id) as? FileTableViewCell else {
                 fatalError("failed to dequeue cell.")
             }
+            let file = files[indexPath.row]
             cell.file = file
             return cell
         }
@@ -101,9 +118,10 @@ extension ListViewController: UITableViewDataSource {
 
 extension ListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let file = files[indexPath.row]
-        let isFolder = DropboxCache.isFolder(file)
+        let isFolder = indexPath.section == 0
+        
         if (isFolder) {
+            let file = folders[indexPath.row]
             if let vc = storyboard?.instantiateViewController(withIdentifier: "ListViewController") as? ListViewController,
                 let path = file.pathLower {
                 vc.path = path
@@ -111,9 +129,12 @@ extension ListViewController: UITableViewDelegate {
             }
         } else {
             if let vc = storyboard?.instantiateViewController(withIdentifier: "FileDetailViewController") as? FileDetailViewController {
+                let file = files[indexPath.row]
                 vc.file = file
                 navigationController?.pushViewController(vc, animated: true)
             }
         }
+        
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
