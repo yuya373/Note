@@ -1,19 +1,19 @@
 //
-//  FileTableViewCell.swift
+//  FolderTableViewCell.swift
 //  Note
 //
-//  Created by 南優也 on 2018/03/10.
+//  Created by 南優也 on 2018/03/11.
 //  Copyright © 2018年 南優也. All rights reserved.
 //
 
 import UIKit
 import SwiftyDropbox
 
-class FileTableViewCell: UITableViewCell {
+class FolderTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     var file: Files.Metadata? {
         didSet {
-            titleLabel.text = file?.name
+            titleLabel.text = self.file?.name
         }
     }
     
