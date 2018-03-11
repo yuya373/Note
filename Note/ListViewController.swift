@@ -50,7 +50,7 @@ class ListViewController: UIViewController {
     private func loadData(expireCache: Bool = false) {
         DropboxCache.instance.files(path: self.path, refresh: expireCache) {
             self.files = $0.sorted { a, b in a.serverModified! > b.serverModified! }
-            self.folders = $1
+            self.folders = $1.sorted { a, b in a.name! < b.name! }
             
             self.activityIndicatorView.stopAnimating()
             
