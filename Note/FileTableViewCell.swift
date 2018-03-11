@@ -11,7 +11,7 @@ import SwiftyDropbox
 
 class FileTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
-    var file: Files.Metadata? {
+    var file: File? {
         didSet {
             titleLabel.text = file?.name
         }

@@ -12,7 +12,7 @@ import SwiftyDropbox
 class FileDetailViewController: UIViewController {
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
-    var file: Files.Metadata?
+    var file: File?
 
     override func viewDidLoad() {
         super.viewDidLoad()

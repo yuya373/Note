@@ -12,8 +12,8 @@ import SwiftyDropbox
 class ListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
-    var files = [Files.FileMetadata]()
-    var folders = [Files.FolderMetadata]()
+    var files = [File]()
+    var folders = [Folder]()
     var path = ""
 
     override func viewDidLoad() {
@@ -28,8 +28,8 @@ class ListViewController: UIViewController {
         activityIndicatorView.startAnimating()
         
         DropboxCache.instance.files(path: self.path) {
-            self.files = $0.filter { f in !(DropboxCache.isFolder(f)) && !(DropboxCache.hasMedia(f)) }.map { $0 as! Files.FileMetadata }.reversed()
-            self.folders = $0.filter { f in DropboxCache.isFolder(f) }.map { $0 as! Files.FolderMetadata }
+            self.files = $0.sorted { a, b in a.serverModified! > b.serverModified! }
+            self.folders = $1
             
             self.activityIndicatorView.stopAnimating()
             

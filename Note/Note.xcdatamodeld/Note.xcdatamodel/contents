@@ -1,4 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <elements/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13772" systemVersion="17D102" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="File" representedClassName="File" parentEntity="Metadata" syncable="YES" codeGenerationType="class">
+        <attribute name="contentHash" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" attributeType="String" syncable="YES"/>
+        <attribute name="rev" attributeType="String" syncable="YES"/>
+        <attribute name="serverModified" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="size" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
+    <entity name="Folder" representedClassName="Folder" parentEntity="Metadata" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Metadata" representedClassName="Metadata" isAbstract="YES" syncable="YES" codeGenerationType="class">
+        <attribute name="description_" attributeType="String" syncable="YES"/>
+        <attribute name="directory" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="pathDisplay" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pathLower" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="File" positionX="-63" positionY="-18" width="128" height="120"/>
+        <element name="Folder" positionX="144" positionY="-15" width="128" height="58"/>
+        <element name="Metadata" positionX="34" positionY="138" width="128" height="118"/>
+    </elements>
 </model>
