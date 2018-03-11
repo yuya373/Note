@@ -17,9 +17,13 @@
         <attribute name="pathDisplay" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="pathLower" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
+    <entity name="Tab" representedClassName="Tab" syncable="YES" codeGenerationType="class">
+        <attribute name="path" attributeType="String" syncable="YES"/>
+    </entity>
     <elements>
         <element name="File" positionX="-63" positionY="-18" width="128" height="120"/>
         <element name="Folder" positionX="144" positionY="-15" width="128" height="58"/>
         <element name="Metadata" positionX="34" positionY="138" width="128" height="118"/>
+        <element name="Tab" positionX="45" positionY="99" width="128" height="60"/>
     </elements>
 </model>

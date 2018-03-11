@@ -16,6 +16,13 @@ class ListViewController: UIViewController {
     var folders = [Folder]()
     var path = ""
     var refreshControl: UIRefreshControl!
+    
+    enum OpType {
+        case browse
+        case bookmark
+    }
+    
+    var opType = OpType.browse
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +31,12 @@ class ListViewController: UIViewController {
         
         print("path: \(path)")
         navigationItem.title = path == "" ? "/" : path
-        
+        if (opType == .browse) {
+            navigationItem.prompt = "Add folder to Menu"
+        } else {
+            navigationItem.rightBarButtonItem = nil
+        }
+
         activityIndicatorView.hidesWhenStopped = true
         activityIndicatorView.startAnimating()
         
@@ -66,6 +78,12 @@ class ListViewController: UIViewController {
         super.prepare(for: segue, sender: sender)
     }
 
+    @IBAction func addButtonTapped(_ sender: UIBarButtonItem) {
+        tabBarController.flatMap { $0 as? UITabBarViewController }.map { tabBarController in
+            tabBarController.addBookmark(path: self.path, select: true)
+            TabManager.updateBookmark(path: self.path)
+        }
+    }
 }
 
 extension ListViewController: UITableViewDataSource {
