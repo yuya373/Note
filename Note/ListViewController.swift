@@ -15,6 +15,7 @@ class ListViewController: UIViewController {
     var files = [File]()
     var folders = [Folder]()
     var path = ""
+    var refreshControl: UIRefreshControl!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +28,15 @@ class ListViewController: UIViewController {
         activityIndicatorView.hidesWhenStopped = true
         activityIndicatorView.startAnimating()
         
-        DropboxCache.instance.files(path: self.path) {
+        loadData(expireCache: false)
+        
+        refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(ListViewController.handleRefresh), for: .valueChanged)
+        tableView.addSubview(refreshControl)
+    }
+    
+    private func loadData(expireCache: Bool = false) {
+        DropboxCache.instance.files(path: self.path, refresh: expireCache) {
             self.files = $0.sorted { a, b in a.serverModified! > b.serverModified! }
             self.folders = $1
             
@@ -35,6 +44,11 @@ class ListViewController: UIViewController {
             
             self.tableView.reloadData()
         }
+    }
+    
+    @objc func handleRefresh(_: Any) {
+        loadData(expireCache: true)
+        refreshControl.endRefreshing()
     }
 
     override func didReceiveMemoryWarning() {

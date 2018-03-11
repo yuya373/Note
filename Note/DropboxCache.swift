@@ -37,7 +37,6 @@ final class DropboxCache {
             let request: NSFetchRequest<File> = File.fetchRequest()
             let files = try context.fetch(request)
             files.forEach { file in
-                print("file.directory: \(file.directory)")
                 let directory = file.directory ?? ""
                 self.cachedFiles[directory] == nil ?
                     self.cachedFiles[directory] = [file] :
@@ -72,7 +71,6 @@ final class DropboxCache {
     }
     
     func initFile(source: Files.FileMetadata, directory: String) -> File {
-        print("directory: \(directory)")
         let context = DropboxCache.delegate().persistentContainer.viewContext
         let file = File(context: context)
         file.name = source.name
@@ -112,8 +110,19 @@ final class DropboxCache {
         }
     }
     
+    private func expireCache(_ path: String) {
+        let context = DropboxCache.delegate().persistentContainer.viewContext
+        cachedFiles[path]?.forEach { file in
+            context.delete(file)
+        }
+        cachedFiles[path] = nil
+        cachedFolders[path]?.forEach { folder in
+            context.delete(folder)
+        }
+        cachedFolders[path] = nil
+    }
+    
     func files(path: String, refresh: Bool = false, _ handler: @escaping ([File], [Folder]) -> Void) {
-        print("path: \(path)")
         if (!refresh && ((cachedFiles[path]?.count ?? 0) > 0 || (cachedFolders[path]?.count ?? 0) > 0)) {
             let files = cachedFiles[path] ?? []
             let folders = cachedFolders[path] ?? []
@@ -121,6 +130,7 @@ final class DropboxCache {
             print("cached folders: \(folders.count)")
             handler(files, folders)
         } else {
+            expireCache(path)
             client().map { client in
                 client.files.listFolder(path: path, recursive: false, includeMediaInfo: true, includeDeleted: false, includeHasExplicitSharedMembers: false, includeMountedFolders: false, limit: nil, sharedLink: nil, includePropertyGroups: nil).response { result, error in
                     result.map { result in
