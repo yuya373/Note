@@ -64,26 +64,6 @@ class ListViewController: UIViewController {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         super.prepare(for: segue, sender: sender)
-        
-        switch segue.identifier ?? "" {
-        case "showFileDetail":
-            guard let nav = segue.destination as? UINavigationController else {
-                fatalError("Unexpected destination: \(segue.destination)")
-            }
-            guard let vc = nav.visibleViewController as? FileDetailViewController else {
-                fatalError("Unexpected vc: \(nav.visibleViewController)")
-            }
-            guard let cell = sender as? FileTableViewCell else {
-                fatalError("Unexpected sender: \(sender ?? "")")
-            }
-            guard let indexPath = tableView.indexPath(for: cell) else {
-                fatalError("indexPath is undefined.")
-            }
-            let file = files[indexPath.row]
-            vc.file = file
-        default:
-            fatalError("Unexpected segue.")
-        }
     }
 
 }
