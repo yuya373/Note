@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		642189762055751100BA2FEB /* TabManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642189752055751100BA2FEB /* TabManager.swift */; };
+		64218979205586D600BA2FEB /* org.html in Resources */ = {isa = PBXBuildFile; fileRef = 64218978205586D600BA2FEB /* org.html */; };
+		642189862055963200BA2FEB /* org.js in Resources */ = {isa = PBXBuildFile; fileRef = 642189852055963200BA2FEB /* org.js */; };
+		642189882055964900BA2FEB /* marked.min.js in Resources */ = {isa = PBXBuildFile; fileRef = 642189872055964900BA2FEB /* marked.min.js */; };
+		6421898A2055965100BA2FEB /* github-markdown.css in Resources */ = {isa = PBXBuildFile; fileRef = 642189892055965100BA2FEB /* github-markdown.css */; };
+		642F702B2055A20D0082F943 /* md.html in Resources */ = {isa = PBXBuildFile; fileRef = 642F702A2055A20D0082F943 /* md.html */; };
+		642F702D2055A7550082F943 /* org-tweak.css in Resources */ = {isa = PBXBuildFile; fileRef = 642F702C2055A7550082F943 /* org-tweak.css */; };
 		6487422D2052D4A2005838CA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6487422C2052D4A2005838CA /* AppDelegate.swift */; };
 		6487422F2052D4A2005838CA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6487422E2052D4A2005838CA /* ViewController.swift */; };
 		648742322052D4A2005838CA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 648742302052D4A2005838CA /* Main.storyboard */; };
@@ -37,6 +43,12 @@
 
 /* Begin PBXFileReference section */
 		642189752055751100BA2FEB /* TabManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabManager.swift; sourceTree = "<group>"; };
+		64218978205586D600BA2FEB /* org.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = org.html; sourceTree = "<group>"; };
+		642189852055963200BA2FEB /* org.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = org.js; path = ../../../../Downloads/org.js; sourceTree = "<group>"; };
+		642189872055964900BA2FEB /* marked.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = marked.min.js; sourceTree = "<group>"; };
+		642189892055965100BA2FEB /* github-markdown.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = "github-markdown.css"; path = "../../../../Downloads/github-markdown.css"; sourceTree = "<group>"; };
+		642F702A2055A20D0082F943 /* md.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = md.html; sourceTree = "<group>"; };
+		642F702C2055A7550082F943 /* org-tweak.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = "org-tweak.css"; sourceTree = "<group>"; };
 		648742292052D4A2005838CA /* Note.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Note.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6487422C2052D4A2005838CA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6487422E2052D4A2005838CA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -78,6 +90,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		64218977205586AA00BA2FEB /* WebView */ = {
+			isa = PBXGroup;
+			children = (
+				642189852055963200BA2FEB /* org.js */,
+				642189892055965100BA2FEB /* github-markdown.css */,
+				642189872055964900BA2FEB /* marked.min.js */,
+				642F702A2055A20D0082F943 /* md.html */,
+				64218978205586D600BA2FEB /* org.html */,
+				642F702C2055A7550082F943 /* org-tweak.css */,
+			);
+			path = WebView;
+			sourceTree = "<group>";
+		};
 		648742202052D4A1005838CA = {
 			isa = PBXGroup;
 			children = (
@@ -100,6 +125,7 @@
 		6487422B2052D4A2005838CA /* Note */ = {
 			isa = PBXGroup;
 			children = (
+				64218977205586AA00BA2FEB /* WebView */,
 				642189752055751100BA2FEB /* TabManager.swift */,
 				6487425F2055619C005838CA /* UITabBarViewController.swift */,
 				648742592054111A005838CA /* FileTableViewCell.swift */,
@@ -220,9 +246,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				642189862055963200BA2FEB /* org.js in Resources */,
 				6487423A2052D4A2005838CA /* LaunchScreen.storyboard in Resources */,
+				642189882055964900BA2FEB /* marked.min.js in Resources */,
+				642F702B2055A20D0082F943 /* md.html in Resources */,
 				648742372052D4A2005838CA /* Assets.xcassets in Resources */,
+				6421898A2055965100BA2FEB /* github-markdown.css in Resources */,
+				642F702D2055A7550082F943 /* org-tweak.css in Resources */,
 				648742322052D4A2005838CA /* Main.storyboard in Resources */,
+				64218979205586D600BA2FEB /* org.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./github-markdown.css">
+    <link rel="stylesheet" href="./org-tweak.css">
+    <script type="text/javascript" src="./org.js"></script>
+    <script type="text/javascript">
+     window.insert = function(html) {
+         try {
+             var parser = new Org.Parser();
+             var orgDocument = parser.parse(html);
+             var orgHTMLDocument = orgDocument.convert(Org.ConverterHTML, {
+                 headerOffset: 1,
+                 exportFromLineNumber: false,
+                 suppressSubScriptHandling: false,
+                 suppressAutoLink: false
+             });
+             document.getElementById('content').innerHTML = orgHTMLDocument.toString();
+
+         } catch(e) {
+             alert(e.message);
+         }
+     }
+    </script>
+  </head>
+
+  <body>
+    <article class="markdown-body">
+      <div id="content" />
+    </article>
+  </body>
+</html>
