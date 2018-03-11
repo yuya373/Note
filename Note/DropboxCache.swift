@@ -43,7 +43,7 @@ final class DropboxCache {
             handler(cachedFiles[path] ?? [])
         } else {
             client().map { client in
-                client.files.listFolder(path: path, recursive: false, includeMediaInfo: true, includeDeleted: false, includeHasExplicitSharedMembers: false, includeMountedFolders: false, limit: 50, sharedLink: nil, includePropertyGroups: nil).response { result, error in
+                client.files.listFolder(path: path, recursive: false, includeMediaInfo: true, includeDeleted: false, includeHasExplicitSharedMembers: false, includeMountedFolders: false, limit: nil, sharedLink: nil, includePropertyGroups: nil).response { result, error in
                     result.map { result in
                         self.cachedFiles[path] = result.entries
                         
