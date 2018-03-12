@@ -105,7 +105,7 @@ extension FileDetailViewController: WKNavigationDelegate {
             self.activityIndicatorView.stopAnimating()
         }
     }
-    
+
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         if (webView.url == self.fileDetailViewUrl) {
             loadFileContents(webView: webView)
@@ -121,4 +121,19 @@ extension FileDetailViewController: WKNavigationDelegate {
         forwardButton.isEnabled = webView.canGoForward
     }
     
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        if let url = navigationAction.request.url {
+            if navigationAction.navigationType == .linkActivated {
+                if (navigationAction.targetFrame == nil || !navigationAction.targetFrame!.isMainFrame) {
+                    webView.load(URLRequest(url: url))
+                    decisionHandler(.cancel)
+                    return
+                }
+            }
+            
+            decisionHandler(.allow)
+        } else {
+            decisionHandler(.cancel)
+        }
+    }
 }
