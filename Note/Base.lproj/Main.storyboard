@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="ZnP-Jm-Qdi">
-                                <rect key="frame" x="24" y="88" width="375" height="96"/>
+                                <rect key="frame" x="0.0" y="88" width="375" height="96"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" editable="NO" text="This App use Dropbox api. Sign in from the button below." textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Oh-f2-kUE">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
@@ -41,17 +41,16 @@
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="7Oh-f2-kUE" secondAttribute="trailing" id="Mvi-eO-571"/>
                                     <constraint firstItem="7Oh-f2-kUE" firstAttribute="leading" secondItem="ZnP-Jm-Qdi" secondAttribute="leading" id="col-3u-oyY"/>
-                                    <constraint firstItem="7Oh-f2-kUE" firstAttribute="top" secondItem="ZnP-Jm-Qdi" secondAttribute="top" id="jG4-ju-c4Q"/>
                                 </constraints>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="ZnP-Jm-Qdi" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="24" id="E12-HR-z1N"/>
-                            <constraint firstItem="ZnP-Jm-Qdi" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="24" id="WYc-4U-Zvu"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ZnP-Jm-Qdi" secondAttribute="trailing" constant="24" id="xr9-Io-Jcn"/>
+                            <constraint firstItem="ZnP-Jm-Qdi" firstAttribute="leading" secondItem="SaJ-lE-WOw" secondAttribute="leading" id="0an-rJ-222"/>
+                            <constraint firstItem="SaJ-lE-WOw" firstAttribute="trailing" secondItem="ZnP-Jm-Qdi" secondAttribute="trailing" id="lkS-gV-i3s"/>
+                            <constraint firstItem="ZnP-Jm-Qdi" firstAttribute="top" secondItem="SaJ-lE-WOw" secondAttribute="top" constant="24" id="w1M-dl-zAH"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <viewLayoutGuide key="safeArea" id="SaJ-lE-WOw"/>
                     </view>
                     <navigationItem key="navigationItem" title="Connect to Dropbox" id="95l-DR-qrd"/>
                 </viewController>
