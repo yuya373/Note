@@ -19,10 +19,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="ZnP-Jm-Qdi">
-                                <rect key="frame" x="24" y="88" width="327" height="96"/>
+                                <rect key="frame" x="24" y="88" width="375" height="96"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" editable="NO" text="This App use Dropbox api. Sign in from the button below." textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Oh-f2-kUE">
-                                        <rect key="frame" x="0.0" y="0.0" width="327" height="50"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="bAU-Gf-wFO"/>
@@ -31,7 +31,7 @@
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kUV-2c-W5f">
-                                        <rect key="frame" x="0.0" y="66" width="327" height="30"/>
+                                        <rect key="frame" x="0.0" y="66" width="375" height="30"/>
                                         <state key="normal" title="Connect"/>
                                         <connections>
                                             <action selector="authorize:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6I7-nX-b1Q"/>
@@ -178,20 +178,47 @@
                                 <rect key="frame" x="0.0" y="355.5" width="375" height="20"/>
                             </activityIndicatorView>
                             <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="49W-BS-CBQ">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="559"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
                                     <wkPreferences key="preferences"/>
                                 </wkWebViewConfiguration>
                             </wkWebView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kMn-r7-9ah">
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="BDm-yd-W0M"/>
+                                </constraints>
+                                <items>
+                                    <barButtonItem title="Open in Safari" id="PKq-RJ-irL">
+                                        <connections>
+                                            <action selector="safariButtonTapped:" destination="ics-tT-PbR" id="sBt-nN-S4e"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem systemItem="flexibleSpace" id="sW3-To-tqd"/>
+                                    <barButtonItem title="Back" id="pfI-DJ-DWi">
+                                        <connections>
+                                            <action selector="backButtonTapped:" destination="ics-tT-PbR" id="JnX-Db-vt2"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem title="Forward" id="hNX-hm-6ok">
+                                        <connections>
+                                            <action selector="forwardButtonTapped:" destination="ics-tT-PbR" id="JC2-IN-GsW"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="49W-BS-CBQ" firstAttribute="bottom" secondItem="Vtz-Df-mSm" secondAttribute="bottom" id="5nU-Wk-4ni"/>
+                            <constraint firstItem="49W-BS-CBQ" firstAttribute="bottom" secondItem="kMn-r7-9ah" secondAttribute="top" id="5nU-Wk-4ni"/>
+                            <constraint firstItem="kMn-r7-9ah" firstAttribute="bottom" secondItem="Vtz-Df-mSm" secondAttribute="bottom" id="Bzf-67-aVC"/>
                             <constraint firstItem="49W-BS-CBQ" firstAttribute="trailing" secondItem="Vtz-Df-mSm" secondAttribute="trailing" id="E8e-tK-uM5"/>
                             <constraint firstItem="3EX-46-Vg5" firstAttribute="leading" secondItem="Vtz-Df-mSm" secondAttribute="leading" id="Fb1-5j-TL7"/>
+                            <constraint firstItem="kMn-r7-9ah" firstAttribute="leading" secondItem="Vtz-Df-mSm" secondAttribute="leading" id="duw-QY-wRI"/>
                             <constraint firstItem="3EX-46-Vg5" firstAttribute="trailing" secondItem="Vtz-Df-mSm" secondAttribute="trailing" id="e3c-ag-TJf"/>
+                            <constraint firstItem="kMn-r7-9ah" firstAttribute="trailing" secondItem="Vtz-Df-mSm" secondAttribute="trailing" id="fbh-CD-vjs"/>
                             <constraint firstItem="3EX-46-Vg5" firstAttribute="centerY" secondItem="Vtz-Df-mSm" secondAttribute="centerY" id="qUn-1u-qZ6"/>
                             <constraint firstItem="Vtz-Df-mSm" firstAttribute="trailing" secondItem="3EX-46-Vg5" secondAttribute="trailing" id="taA-9d-yc9"/>
                             <constraint firstItem="49W-BS-CBQ" firstAttribute="leading" secondItem="Vtz-Df-mSm" secondAttribute="leading" id="wo8-Vu-aBi"/>
@@ -199,9 +226,15 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Vtz-Df-mSm"/>
                     </view>
-                    <navigationItem key="navigationItem" id="VcW-nO-Zg2"/>
+                    <navigationItem key="navigationItem" id="VcW-nO-Zg2">
+                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="Byg-KO-puh"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="activityIndicatorView" destination="3EX-46-Vg5" id="ESi-8I-L6r"/>
+                        <outlet property="backButton" destination="pfI-DJ-DWi" id="4g2-uI-hoh"/>
+                        <outlet property="editButton" destination="Byg-KO-puh" id="1PW-7q-xH9"/>
+                        <outlet property="forwardButton" destination="hNX-hm-6ok" id="891-k5-wG3"/>
+                        <outlet property="safariButton" destination="PKq-RJ-irL" id="Skd-LT-W6R"/>
                         <outlet property="webView" destination="49W-BS-CBQ" id="9k9-iJ-pBK"/>
                     </connections>
                 </viewController>
