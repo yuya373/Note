@@ -20,6 +20,11 @@ class FileDetailViewController: UIViewController {
     var file: File!
     var fileDetailViewUrl: URL!
     var dataAsString: String?
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationItem.title = file.name
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +43,6 @@ class FileDetailViewController: UIViewController {
         
         let req = URLRequest(url: fileDetailViewUrl)
         webView.load(req)
-        navigationItem.title = file.name
         self.activityIndicatorView.startAnimating()
         
     }
@@ -94,7 +98,8 @@ class FileDetailViewController: UIViewController {
             if let vc = storyboard?.instantiateViewController(withIdentifier: "FileEditViewController") as? FileEditViewController {
                 vc.file = file
                 vc.dataAsString = dataAsString ?? ""
-                navigationController?.present(vc , animated: true, completion: nil)
+                navigationItem.title = nil
+                navigationController?.pushViewController(vc, animated: true)
             }
         }
     }
@@ -106,11 +111,12 @@ extension FileDetailViewController: WKNavigationDelegate {
             result.map {
                 let (_, data) = $0
                 if let str = String(bytes: data, encoding: String.Encoding.utf8) {
-                    let exp = str.trimmingCharacters(in: .whitespacesAndNewlines).replacingOccurrences(of: "'", with: "\\'").components(separatedBy: .newlines).joined(separator: "\\n")
-                    
-                    self.dataAsString = exp
+                    self.dataAsString = str
                     self.editButton.isEnabled = true
                     
+                    let exp = str.trimmingCharacters(in: .whitespacesAndNewlines).replacingOccurrences(of: "'", with: "\\'").components(separatedBy: .newlines).joined(separator: "\\n")
+                    
+
                     let js = """
                         try {
                             insert('\(exp)');
