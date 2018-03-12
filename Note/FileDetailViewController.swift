@@ -19,6 +19,7 @@ class FileDetailViewController: UIViewController {
     @IBOutlet weak var editButton: UIBarButtonItem!
     var file: File!
     var fileDetailViewUrl: URL!
+    var dataAsString: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +27,7 @@ class FileDetailViewController: UIViewController {
         // Do any additional setup after loading the view.
         activityIndicatorView.hidesWhenStopped = true
         
+        editButton.isEnabled = false
         webView.navigationDelegate = self
 
         if ((file.name ?? "").hasSuffix(".org")) {
@@ -47,16 +49,25 @@ class FileDetailViewController: UIViewController {
     }
     
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        super.prepare(for: segue, sender: sender)
+        switch segue.identifier ?? "" {
+        case "editFile":
+            guard let vc = segue.destination as? FileEditViewController else {
+                fatalError("Unexpected destination: \(segue.destination)")
+            }
+            vc.file = file
+            vc.dataAsString = dataAsString ?? ""
+        default:
+            fatalError("Unexpected segue identifier: \(segue.identifier)")
+        }
     }
-    */
-    
+
     // MARK: - Actions
     @IBAction func backButtonTapped(_ sender: UIBarButtonItem) {
         if (webView.canGoBack) {
@@ -71,8 +82,20 @@ class FileDetailViewController: UIViewController {
     }
     
     @IBAction func safariButtonTapped(_ sender: UIBarButtonItem) {
-        if let url = webView.url {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        if safariButton.isEnabled {
+            if let url = webView.url {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        }
+    }
+    
+    @IBAction func editButtonTapped(_ sender: UIBarButtonItem) {
+        if editButton.isEnabled {
+            if let vc = storyboard?.instantiateViewController(withIdentifier: "FileEditViewController") as? FileEditViewController {
+                vc.file = file
+                vc.dataAsString = dataAsString ?? ""
+                navigationController?.present(vc , animated: true, completion: nil)
+            }
         }
     }
 }
@@ -84,17 +107,22 @@ extension FileDetailViewController: WKNavigationDelegate {
                 let (_, data) = $0
                 if let str = String(bytes: data, encoding: String.Encoding.utf8) {
                     let exp = str.trimmingCharacters(in: .whitespacesAndNewlines).replacingOccurrences(of: "'", with: "\\'").components(separatedBy: .newlines).joined(separator: "\\n")
+                    
+                    self.dataAsString = exp
+                    self.editButton.isEnabled = true
+                    
                     let js = """
-                    try {
-                    insert('\(exp)');
-                    } catch(e) {
-                    alert(e);
-                    }
+                        try {
+                            insert('\(exp)');
+                        } catch(e) {
+                            alert(e);
+                        }
                     """
                     
                     webView.evaluateJavaScript(js, completionHandler: { result, error in
                         result.map { print("result: \($0)") }
                         error.map { print("error: \($0)") }
+                        
                     })
                 }
             }
@@ -111,7 +139,6 @@ extension FileDetailViewController: WKNavigationDelegate {
             loadFileContents(webView: webView)
             safariButton.isEnabled = false
             navigationItem.title = file.name
-            editButton.isEnabled = true
         } else {
             safariButton.isEnabled = true
             navigationItem.title = webView.title

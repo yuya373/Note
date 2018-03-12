@@ -29,6 +29,7 @@
 		6487425C205443BF005838CA /* FolderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6487425B205443BF005838CA /* FolderTableViewCell.swift */; };
 		6487425E20545E91005838CA /* FileDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6487425D20545E90005838CA /* FileDetailViewController.swift */; };
 		648742602055619C005838CA /* UITabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6487425F2055619C005838CA /* UITabBarViewController.swift */; };
+		64A7DB042056BED800EE14F5 /* FileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A7DB032056BED800EE14F5 /* FileEditViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,7 @@
 		6487425B205443BF005838CA /* FolderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderTableViewCell.swift; sourceTree = "<group>"; };
 		6487425D20545E90005838CA /* FileDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileDetailViewController.swift; sourceTree = "<group>"; };
 		6487425F2055619C005838CA /* UITabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITabBarViewController.swift; sourceTree = "<group>"; };
+		64A7DB032056BED800EE14F5 /* FileEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileEditViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +137,7 @@
 				648742552053CCFB005838CA /* ListViewController.swift */,
 				648742572053D275005838CA /* DropboxCache.swift */,
 				648742302052D4A2005838CA /* Main.storyboard */,
+				64A7DB032056BED800EE14F5 /* FileEditViewController.swift */,
 				6487425D20545E90005838CA /* FileDetailViewController.swift */,
 				648742362052D4A2005838CA /* Assets.xcassets */,
 				648742382052D4A2005838CA /* LaunchScreen.storyboard */,
@@ -297,6 +300,7 @@
 				6487422F2052D4A2005838CA /* ViewController.swift in Sources */,
 				648742602055619C005838CA /* UITabBarViewController.swift in Sources */,
 				6487425E20545E91005838CA /* FileDetailViewController.swift in Sources */,
+				64A7DB042056BED800EE14F5 /* FileEditViewController.swift in Sources */,
 				642189762055751100BA2FEB /* TabManager.swift in Sources */,
 				648742582053D275005838CA /* DropboxCache.swift in Sources */,
 				648742562053CCFB005838CA /* ListViewController.swift in Sources */,
