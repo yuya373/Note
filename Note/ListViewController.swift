@@ -143,6 +143,7 @@ extension ListViewController: UITableViewDelegate {
             if let vc = storyboard?.instantiateViewController(withIdentifier: "FileDetailViewController") as? FileDetailViewController {
                 let file = files[indexPath.row]
                 vc.file = file
+                vc.hidesBottomBarWhenPushed = true
                 navigationController?.pushViewController(vc, animated: true)
             }
         }
