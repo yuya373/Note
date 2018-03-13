@@ -35,7 +35,7 @@ class FileDetailViewController: UIViewController {
         } else {
             self.fileDetailViewUrl = Bundle.main.url(forResource: "md", withExtension: "html")!
         }
-        
+
         let req = URLRequest(url: fileDetailViewUrl)
         webView.load(req)
         navigationItem.title = file.name
@@ -94,7 +94,8 @@ class FileDetailViewController: UIViewController {
             if let vc = storyboard?.instantiateViewController(withIdentifier: "FileEditViewController") as? FileEditViewController {
                 vc.file = file
                 vc.dataAsString = dataAsString ?? ""
-                navigationController?.present(vc , animated: true, completion: nil)
+                let nav = UINavigationController(rootViewController: vc)
+                present(nav, animated: true, completion: nil)
             }
         }
     }
@@ -113,7 +114,7 @@ extension FileDetailViewController: WKNavigationDelegate {
                     
                     let js = """
                         try {
-                            insert('\(exp)');
+                            insert('\(exp)', '\(self.file.name ?? "")');
                         } catch(e) {
                             alert(e);
                         }

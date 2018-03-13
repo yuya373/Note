@@ -13,15 +13,18 @@ class FileEditViewController: UIViewController {
     var dataAsString: String!
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var dataTextView: UITextView!
-    @IBOutlet weak var pesudoNavigationBar: UIView!
-    @IBOutlet weak var navigationBar: UINavigationBar!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         nameTextField.text = file.name
         dataTextView.text = dataAsString
+        
+        let color = UIColor(red: 186/255, green: 186/255, blue: 186/255, alpha: 1.0).cgColor
+        dataTextView.layer.borderColor = color
+        dataTextView.layer.borderWidth = 0.5
+        dataTextView.layer.cornerRadius = 5.0
     }
 
     override func didReceiveMemoryWarning() {
