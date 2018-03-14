@@ -107,11 +107,12 @@ extension FileDetailViewController: WKNavigationDelegate {
             result.map {
                 let (_, data) = $0
                 if let str = String(bytes: data, encoding: String.Encoding.utf8) {
-                    let exp = str.trimmingCharacters(in: .whitespacesAndNewlines).replacingOccurrences(of: "'", with: "\\'").components(separatedBy: .newlines).joined(separator: "\\n")
-                    
-                    self.dataAsString = exp
+                    self.dataAsString = str
                     self.editButton.isEnabled = true
                     
+                    let exp = str.trimmingCharacters(in: .whitespacesAndNewlines).replacingOccurrences(of: "'", with: "\\'").components(separatedBy: .newlines).joined(separator: "\\n")
+                    
+
                     let js = """
                         try {
                             insert('\(exp)', '\(self.file.name ?? "")');
