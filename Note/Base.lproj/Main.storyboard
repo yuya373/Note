@@ -256,20 +256,20 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OO3-D1-gRA">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Jht-xr-bTf">
-                                        <rect key="frame" x="0.0" y="16" width="375" height="406"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="Jht-xr-bTf">
+                                        <rect key="frame" x="0.0" y="16" width="375" height="534"/>
                                         <subviews>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="File name with extension" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="b3T-Fv-B39">
                                                 <rect key="frame" x="16" y="0.0" width="343" height="30"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
                                             </textField>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="KeR-YQ-Uet">
-                                                <rect key="frame" x="16" y="46" width="343" height="360"/>
+                                                <rect key="frame" x="16" y="54" width="343" height="480"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="360" id="CDb-go-soN"/>
+                                                    <constraint firstAttribute="height" constant="480" id="HsR-u5-6KC"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -292,16 +292,20 @@
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="OO3-D1-gRA" firstAttribute="width" secondItem="C9p-Wz-zGD" secondAttribute="width" id="2Xy-pu-PLx"/>
                             <constraint firstItem="C9p-Wz-zGD" firstAttribute="bottom" secondItem="OO3-D1-gRA" secondAttribute="bottom" id="KHx-f5-wWt"/>
                             <constraint firstItem="Jht-xr-bTf" firstAttribute="width" secondItem="C9p-Wz-zGD" secondAttribute="width" id="g7V-QQ-4vw"/>
                             <constraint firstItem="OO3-D1-gRA" firstAttribute="height" secondItem="C9p-Wz-zGD" secondAttribute="height" id="i7d-N1-ASd"/>
-                            <constraint firstAttribute="trailing" secondItem="OO3-D1-gRA" secondAttribute="trailing" id="qeE-vH-CEH"/>
+                            <constraint firstItem="C9p-Wz-zGD" firstAttribute="trailing" secondItem="OO3-D1-gRA" secondAttribute="trailing" id="qeE-vH-CEH"/>
                             <constraint firstItem="OO3-D1-gRA" firstAttribute="top" secondItem="C9p-Wz-zGD" secondAttribute="top" id="v4a-cA-AU4"/>
-                            <constraint firstItem="OO3-D1-gRA" firstAttribute="leading" secondItem="vV6-ma-3WO" secondAttribute="leading" id="y22-2a-nCt"/>
+                            <constraint firstItem="OO3-D1-gRA" firstAttribute="leading" secondItem="C9p-Wz-zGD" secondAttribute="leading" id="y22-2a-nCt"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="C9p-Wz-zGD"/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="p77-jv-Kf1" appends="YES" id="uXi-Fu-uWc"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" title="Edit" id="7PY-pV-dwN">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="6FM-mw-JnE">
@@ -313,9 +317,15 @@
                     <connections>
                         <outlet property="dataTextView" destination="KeR-YQ-Uet" id="eL3-Gs-IxL"/>
                         <outlet property="nameTextField" destination="b3T-Fv-B39" id="ilr-0m-HjG"/>
+                        <outlet property="scrollView" destination="OO3-D1-gRA" id="cnc-vI-Ast"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4tk-Rn-qWq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="p77-jv-Kf1">
+                    <connections>
+                        <action selector="onTapGesture:" destination="xMi-uf-4pQ" id="JVF-EZ-ivH"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="5122.3999999999996" y="814.54272863568224"/>
         </scene>
@@ -376,7 +386,6 @@
         <!--Navigation Controller-->
         <scene sceneID="fdc-ds-RA5">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="wW0-Dx-I8S" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="nol-J6-BSs" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="IOO-LT-FVR">
@@ -388,6 +397,7 @@
                         <segue destination="xMi-uf-4pQ" kind="relationship" relationship="rootViewController" id="vZl-wu-Vxc"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wW0-Dx-I8S" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4244" y="1273"/>
         </scene>
