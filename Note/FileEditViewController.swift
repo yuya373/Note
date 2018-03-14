@@ -71,8 +71,14 @@ class FileEditViewController: UIViewController {
         if (!dataTextView.isFirstResponder) {
             return
         }
-        if let rect = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            scrollView.frame.size.height -= rect.size.height
+        if let rect = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
+            let duration = (notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? Double){
+            let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: rect.size.height, right: 0)
+            UIView.animate(withDuration: duration, animations: {
+                self.scrollView.contentInset = contentInsets
+                self.scrollView.scrollIndicatorInsets = contentInsets
+                self.view.layoutIfNeeded()
+            })
         }
     }
     
@@ -80,9 +86,8 @@ class FileEditViewController: UIViewController {
         if (!dataTextView.isFirstResponder) {
             return
         }
-        if let rect = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            scrollView.frame.size.height += rect.size.height
-        }
+        scrollView.contentInset = .zero
+        scrollView.scrollIndicatorInsets = .zero
     }
     
     private func registerKeyboardObserver() {
