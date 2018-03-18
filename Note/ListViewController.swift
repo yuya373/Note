@@ -97,6 +97,29 @@ class ListViewController: UIViewController {
             }
         }
     }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if (editingStyle == .delete) {
+            let isFolder = indexPath.section == 0
+            if (isFolder) {
+                let folder = folders[indexPath.row]
+                DropboxCache.instance.delete(path: folder.pathLower!) {
+                    self.folders.remove(at: indexPath.row)
+                    tableView.deleteRows(at: [indexPath], with: .fade)
+                }
+            } else {
+                let file = files[indexPath.row]
+                DropboxCache.instance.delete(path: file.pathLower!) {
+                    self.files.remove(at: indexPath.row)
+                    tableView.deleteRows(at: [indexPath], with: .fade)
+                }
+            }
+        }
+    }
 }
 
 extension ListViewController: UITableViewDataSource {

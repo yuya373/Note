@@ -173,11 +173,16 @@ final class DropboxCache {
         }
     }
     
+    private func directoryFor(path: String) -> String {
+        let pathComponents = path.split(separator: "/")
+        let directory = "/" + pathComponents[0..<(pathComponents.count-1)].map { s in String(s) }.joined(separator: "/")
+        return directory
+    }
+    
     func save(path: String, content: Data, _ handler: @escaping () -> Void) {
         client().map { client in
             client.files.upload(path: path, mode: Files.WriteMode.overwrite, autorename: false, clientModified: nil, mute: true, propertyGroups: nil, input: content).response { result, error in
-                let pathComponents = path.split(separator: "/")
-                let directory = "/" + pathComponents[0..<(pathComponents.count-1)].map { s in String(s) }.joined(separator: "/")
+                let directory = self.directoryFor(path: path)
                 result.map { result in
                     self.expireCache(directory)
                     handler()
@@ -185,6 +190,18 @@ final class DropboxCache {
                 error.map { error in
                     fatalError("upload failed. \(error.description)")
                 }
+            }
+        }
+    }
+    
+    func delete(path: String, _ handler: @escaping () -> Void) {
+        client().map { client in
+            client.files.deleteV2(path: path).response { result, error in
+                result.map { result in
+                    self.expireCache(self.directoryFor(path: path))
+                    handler()
+                }
+                error.map { fatalError("deleteV2 failed. \($0.description)") }
             }
         }
     }
