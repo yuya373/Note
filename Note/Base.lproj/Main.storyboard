@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
-        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -20,10 +19,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="ZnP-Jm-Qdi">
-                                <rect key="frame" x="0.0" y="88" width="375" height="96"/>
+                                <rect key="frame" x="0.0" y="88" width="0.0" height="96"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" editable="NO" text="This App use Dropbox api. Sign in from the button below." textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Oh-f2-kUE">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="50"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="bAU-Gf-wFO"/>
@@ -32,7 +31,7 @@
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kUV-2c-W5f">
-                                        <rect key="frame" x="0.0" y="66" width="375" height="30"/>
+                                        <rect key="frame" x="0.0" y="66" width="0.0" height="30"/>
                                         <state key="normal" title="Connect"/>
                                         <connections>
                                             <action selector="authorize:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6I7-nX-b1Q"/>
@@ -174,8 +173,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="3EX-46-Vg5">
-                                <rect key="frame" x="355" y="355.5" width="20" height="20"/>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="3EX-46-Vg5">
+                                <rect key="frame" x="169.5" y="325.5" width="37" height="37"/>
                             </activityIndicatorView>
                             <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="49W-BS-CBQ">
                                 <rect key="frame" x="0.0" y="64" width="375" height="559"/>
@@ -216,10 +215,9 @@
                             <constraint firstItem="kMn-r7-9ah" firstAttribute="bottom" secondItem="Vtz-Df-mSm" secondAttribute="bottom" id="Bzf-67-aVC"/>
                             <constraint firstItem="49W-BS-CBQ" firstAttribute="trailing" secondItem="Vtz-Df-mSm" secondAttribute="trailing" id="E8e-tK-uM5"/>
                             <constraint firstItem="kMn-r7-9ah" firstAttribute="leading" secondItem="Vtz-Df-mSm" secondAttribute="leading" id="duw-QY-wRI"/>
-                            <constraint firstItem="3EX-46-Vg5" firstAttribute="trailing" secondItem="49W-BS-CBQ" secondAttribute="centerX" constant="187.5" id="e3c-ag-TJf"/>
+                            <constraint firstItem="3EX-46-Vg5" firstAttribute="centerX" secondItem="49W-BS-CBQ" secondAttribute="centerX" id="e3c-ag-TJf"/>
                             <constraint firstItem="kMn-r7-9ah" firstAttribute="trailing" secondItem="Vtz-Df-mSm" secondAttribute="trailing" id="fbh-CD-vjs"/>
-                            <constraint firstItem="3EX-46-Vg5" firstAttribute="centerY" secondItem="49W-BS-CBQ" secondAttribute="centerY" constant="22" id="qUn-1u-qZ6"/>
-                            <constraint firstItem="Vtz-Df-mSm" firstAttribute="trailing" secondItem="3EX-46-Vg5" secondAttribute="trailing" id="taA-9d-yc9"/>
+                            <constraint firstItem="3EX-46-Vg5" firstAttribute="centerY" secondItem="49W-BS-CBQ" secondAttribute="centerY" id="qUn-1u-qZ6"/>
                             <constraint firstItem="49W-BS-CBQ" firstAttribute="leading" secondItem="Vtz-Df-mSm" secondAttribute="leading" id="wo8-Vu-aBi"/>
                             <constraint firstItem="49W-BS-CBQ" firstAttribute="top" secondItem="Vtz-Df-mSm" secondAttribute="top" id="xkj-5M-e3o"/>
                         </constraints>
