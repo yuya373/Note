@@ -33,8 +33,6 @@ class ListViewController: UIViewController {
         navigationItem.title = path == "" ? "/" : path
         if (opType == .browse) {
             navigationItem.prompt = "Add folder to Menu"
-        } else {
-            navigationItem.rightBarButtonItem = nil
         }
 
         activityIndicatorView.hidesWhenStopped = true
@@ -47,7 +45,7 @@ class ListViewController: UIViewController {
         tableView.addSubview(refreshControl)
     }
     
-    private func loadData(expireCache: Bool = false) {
+    private func loadData(expireCache: Bool = false, _ handler: (() -> Void)? = nil) {
         DropboxCache.instance.files(path: self.path, refresh: expireCache) {
             self.files = $0.sorted { a, b in a.serverModified! > b.serverModified! }
             self.folders = $1.sorted { a, b in a.name! < b.name! }
@@ -55,12 +53,14 @@ class ListViewController: UIViewController {
             self.activityIndicatorView.stopAnimating()
             
             self.tableView.reloadData()
+            handler?()
         }
     }
     
     @objc func handleRefresh(_: Any) {
-        loadData(expireCache: true)
-        refreshControl.endRefreshing()
+        loadData(expireCache: true) {
+            self.refreshControl.endRefreshing()
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -79,9 +79,22 @@ class ListViewController: UIViewController {
     }
 
     @IBAction func addButtonTapped(_ sender: UIBarButtonItem) {
-        tabBarController.flatMap { $0 as? UITabBarViewController }.map { tabBarController in
-            tabBarController.addBookmark(path: self.path, select: true)
-            TabManager.updateBookmark(path: self.path)
+        if (self.opType == .browse) {
+            tabBarController.flatMap { $0 as? UITabBarViewController }.map { tabBarController in
+                tabBarController.addBookmark(path: self.path, select: true)
+                TabManager.updateBookmark(path: self.path)
+            }
+        } else {
+            if let vc = storyboard?.instantiateViewController(withIdentifier: "FileEditViewController") as? FileEditViewController {
+                vc.reloadFile = {
+                    self.activityIndicatorView.startAnimating()
+                    self.loadData(expireCache: true)
+                }
+                vc.dataAsString = ""
+                vc.directory = path
+                let nav = UINavigationController(rootViewController: vc)
+                present(nav, animated: true, completion: nil)
+            }
         }
     }
 }

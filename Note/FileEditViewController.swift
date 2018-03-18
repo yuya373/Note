@@ -9,7 +9,8 @@
 import UIKit
 
 class FileEditViewController: UIViewController {
-    var file: File!
+    var file: File?
+    var directory: String?
     var dataAsString: String!
     var reloadFile: (() -> Void)?
     @IBOutlet weak var nameTextField: UITextField!
@@ -27,10 +28,11 @@ class FileEditViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        navigationItem.title = file.name
+        navigationItem.title = file?.name
 
-        nameTextField.text = file.name
+        nameTextField.text = file?.name
         nameTextField.delegate = self
+        saveButton.isEnabled = saveButtonIsEnabled()
         
         dataTextView.text = dataAsString
         let color = UIColor(red: 186/255, green: 186/255, blue: 186/255, alpha: 1.0).cgColor
@@ -68,13 +70,20 @@ class FileEditViewController: UIViewController {
         let str = dataTextView.text ?? ""
 
         if let data = str.data(using: .utf8) {
-            DropboxCache.instance.save(path: file.pathLower!, content: data) {
+            let path: String
+            if let file = file {
+                path = file.pathLower!
+            } else {
+                path = directory! + "/" + nameTextField.text!
+            }
+            
+            DropboxCache.instance.save(path: path, content: data) {
                 self.activityIndicatorView.stopAnimating()
                 self.reloadFile?()
                 self.dismiss(animated: true, completion: nil)
             }
         } else {
-            saveButton.isEnabled = true
+            saveButton.isEnabled = saveButtonIsEnabled()
             activityIndicatorView.stopAnimating()
         }
     }
@@ -123,11 +132,16 @@ class FileEditViewController: UIViewController {
         let notification = NotificationCenter.default
         notification.removeObserver(self)
     }
+    
+    private func saveButtonIsEnabled() -> Bool {
+        return nameTextField.text != nil && nameTextField.text!.count > 0
+    }
 }
 
 extension FileEditViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         navigationItem.title = nameTextField.text
+        saveButton.isEnabled = saveButtonIsEnabled()
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
