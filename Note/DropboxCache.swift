@@ -179,7 +179,7 @@ final class DropboxCache {
                 let pathComponents = path.split(separator: "/")
                 let directory = "/" + pathComponents[0..<(pathComponents.count-1)].map { s in String(s) }.joined(separator: "/")
                 result.map { result in
-                    self.cachedFiles[directory] = (self.cachedFiles[directory]?.filter { file in file.pathLower != path } ?? []) + (self.buildCachedFiles(entries: [result], directory: directory))
+                    self.expireCache(directory)
                     handler()
                 }
                 error.map { error in
