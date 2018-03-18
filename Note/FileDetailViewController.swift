@@ -20,13 +20,14 @@ class FileDetailViewController: UIViewController {
     var file: File!
     var fileDetailViewUrl: URL!
     var dataAsString: String?
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         activityIndicatorView.hidesWhenStopped = true
         
+        navigationItem.title = file.name
         editButton.isEnabled = false
         webView.navigationDelegate = self
 
@@ -35,12 +36,10 @@ class FileDetailViewController: UIViewController {
         } else {
             self.fileDetailViewUrl = Bundle.main.url(forResource: "md", withExtension: "html")!
         }
-
+        
+        self.activityIndicatorView.startAnimating()
         let req = URLRequest(url: fileDetailViewUrl)
         webView.load(req)
-        navigationItem.title = file.name
-        self.activityIndicatorView.startAnimating()
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -94,6 +93,10 @@ class FileDetailViewController: UIViewController {
             if let vc = storyboard?.instantiateViewController(withIdentifier: "FileEditViewController") as? FileEditViewController {
                 vc.file = file
                 vc.dataAsString = dataAsString ?? ""
+                vc.reloadFile = {
+                    self.activityIndicatorView.startAnimating()
+                    self.loadFileContents(webView: self.webView)
+                }
                 let nav = UINavigationController(rootViewController: vc)
                 present(nav, animated: true, completion: nil)
             }
@@ -103,6 +106,7 @@ class FileDetailViewController: UIViewController {
 
 extension FileDetailViewController: WKNavigationDelegate {
     private func loadFileContents(webView: WKWebView) {
+        print("requesting...")
         DropboxClientsManager.authorizedClient?.files.download(path: file.pathLower!).response { (result, error) in
             result.map {
                 let (_, data) = $0

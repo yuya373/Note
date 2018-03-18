@@ -11,9 +11,12 @@ import UIKit
 class FileEditViewController: UIViewController {
     var file: File!
     var dataAsString: String!
+    var reloadFile: (() -> Void)?
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var dataTextView: UITextView!
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var saveButton: UIBarButtonItem!
+    @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -34,6 +37,8 @@ class FileEditViewController: UIViewController {
         dataTextView.layer.borderColor = color
         dataTextView.layer.borderWidth = 0.5
         dataTextView.layer.cornerRadius = 5.0
+        
+        activityIndicatorView.hidesWhenStopped = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -56,6 +61,24 @@ class FileEditViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    // MARK: - Actions
+    @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
+        saveButton.isEnabled = false
+        activityIndicatorView.startAnimating()
+        let str = dataTextView.text ?? ""
+
+        if let data = str.data(using: .utf8) {
+            DropboxCache.instance.save(path: file.pathLower!, content: data) {
+                self.activityIndicatorView.stopAnimating()
+                self.reloadFile?()
+                self.dismiss(animated: true, completion: nil)
+            }
+        } else {
+            saveButton.isEnabled = true
+            activityIndicatorView.stopAnimating()
+        }
+    }
+    
     @IBAction func onTapGesture(_ sender: UITapGestureRecognizer) {
         if (dataTextView.isFirstResponder) {
             dataTextView.resignFirstResponder()

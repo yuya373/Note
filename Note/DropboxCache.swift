@@ -172,4 +172,20 @@ final class DropboxCache {
             }
         }
     }
+    
+    func save(path: String, content: Data, _ handler: @escaping () -> Void) {
+        client().map { client in
+            client.files.upload(path: path, mode: Files.WriteMode.overwrite, autorename: false, clientModified: nil, mute: true, propertyGroups: nil, input: content).response { result, error in
+                let pathComponents = path.split(separator: "/")
+                let directory = "/" + pathComponents[0..<(pathComponents.count-1)].map { s in String(s) }.joined(separator: "/")
+                result.map { result in
+                    self.cachedFiles[directory] = (self.cachedFiles[directory]?.filter { file in file.pathLower != path } ?? []) + (self.buildCachedFiles(entries: [result], directory: directory))
+                    handler()
+                }
+                error.map { error in
+                    fatalError("upload failed. \(error.description)")
+                }
+            }
+        }
+    }
 }
