@@ -205,4 +205,16 @@ final class DropboxCache {
             }
         }
     }
+    
+    func download(path: String, _ handler: @escaping (Data) -> Void) {
+        client().map { client in
+            client.files.download(path: path).response { result, error in
+                result.map { result in
+                    let data = result.1
+                    handler(data)
+                }
+                error.map { fatalError("download failed. \($0.description)") }
+            }
+        }
+    }
 }

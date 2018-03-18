@@ -106,36 +106,28 @@ class FileDetailViewController: UIViewController {
 
 extension FileDetailViewController: WKNavigationDelegate {
     private func loadFileContents(webView: WKWebView) {
-        print("requesting...")
-        DropboxClientsManager.authorizedClient?.files.download(path: file.pathLower!).response { (result, error) in
-            result.map {
-                let (_, data) = $0
-                if let str = String(bytes: data, encoding: String.Encoding.utf8) {
-                    self.dataAsString = str
-                    self.editButton.isEnabled = true
-                    
-                    let exp = str.trimmingCharacters(in: .whitespacesAndNewlines).replacingOccurrences(of: "'", with: "\\'").components(separatedBy: .newlines).joined(separator: "\\n")
-                    
-
-                    let js = """
-                        try {
-                            insert('\(exp)', '\(self.file.name ?? "")');
-                        } catch(e) {
-                            alert(e);
-                        }
-                    """
-                    
-                    webView.evaluateJavaScript(js, completionHandler: { result, error in
-                        result.map { print("result: \($0)") }
-                        error.map { print("error: \($0)") }
-                        
-                    })
+        DropboxCache.instance.download(path: file.pathLower!) { data in
+            if let str = String(bytes: data, encoding: String.Encoding.utf8) {
+                self.dataAsString = str
+                self.editButton.isEnabled = true
+                
+                let exp = str.trimmingCharacters(in: .whitespacesAndNewlines).replacingOccurrences(of: "'", with: "\\'").components(separatedBy: .newlines).joined(separator: "\\n")
+                
+                
+                let js = """
+                try {
+                insert('\(exp)', '\(self.file.name ?? "")');
+                } catch(e) {
+                alert(e);
                 }
+                """
+                
+                webView.evaluateJavaScript(js, completionHandler: { result, error in
+                    result.map { print("result: \($0)") }
+                    error.map { print("error: \($0)") }
+                    
+                })
             }
-            error.map {
-                fatalError("failed to download file: \(self.file.pathLower ?? "no pathLower!"), error: \($0.description)")
-            }
-            
             self.activityIndicatorView.stopAnimating()
         }
     }
