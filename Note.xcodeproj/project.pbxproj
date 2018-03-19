@@ -30,6 +30,7 @@
 		6487425E20545E91005838CA /* FileDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6487425D20545E90005838CA /* FileDetailViewController.swift */; };
 		648742602055619C005838CA /* UITabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6487425F2055619C005838CA /* UITabBarViewController.swift */; };
 		64A7DB042056BED800EE14F5 /* FileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A7DB032056BED800EE14F5 /* FileEditViewController.swift */; };
+		64F0DA00206017370061FC5A /* Either.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F0D9FF206017370061FC5A /* Either.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,7 @@
 		6487425D20545E90005838CA /* FileDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileDetailViewController.swift; sourceTree = "<group>"; };
 		6487425F2055619C005838CA /* UITabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITabBarViewController.swift; sourceTree = "<group>"; };
 		64A7DB032056BED800EE14F5 /* FileEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileEditViewController.swift; sourceTree = "<group>"; };
+		64F0D9FF206017370061FC5A /* Either.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Either.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +137,7 @@
 				6487422C2052D4A2005838CA /* AppDelegate.swift */,
 				6487422E2052D4A2005838CA /* ViewController.swift */,
 				648742552053CCFB005838CA /* ListViewController.swift */,
+				64F0D9FF206017370061FC5A /* Either.swift */,
 				648742572053D275005838CA /* DropboxCache.swift */,
 				648742302052D4A2005838CA /* Main.storyboard */,
 				64A7DB032056BED800EE14F5 /* FileEditViewController.swift */,
@@ -299,6 +302,7 @@
 				6487425A2054111A005838CA /* FileTableViewCell.swift in Sources */,
 				6487422F2052D4A2005838CA /* ViewController.swift in Sources */,
 				648742602055619C005838CA /* UITabBarViewController.swift in Sources */,
+				64F0DA00206017370061FC5A /* Either.swift in Sources */,
 				6487425E20545E91005838CA /* FileDetailViewController.swift in Sources */,
 				64A7DB042056BED800EE14F5 /* FileEditViewController.swift in Sources */,
 				642189762055751100BA2FEB /* TabManager.swift in Sources */,

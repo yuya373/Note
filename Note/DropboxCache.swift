@@ -206,14 +206,99 @@ final class DropboxCache {
         }
     }
     
-    func download(path: String, _ handler: @escaping (Data) -> Void) {
+    func handleAuthError<R>(_ error: Auth.AuthError) -> Either<String, R> {
+        switch error {
+        case .invalidAccessToken:
+            return Either.Left("Invalid Access Token")
+        case .userSuspended:
+            return Either.Left("Suspended User")
+        case .invalidSelectAdmin:
+            return Either.Left("Invalid Select Admin")
+        case .invalidSelectUser:
+            return Either.Left("Invaid Select User")
+        case .other:
+            return Either.Left("Unknown Error. \(error.description)")
+        }
+    }
+    
+    func handleAccessError<R>(_ error: Auth.AccessError) -> Either<String, R> {
+        switch error {
+        case .other:
+            return Either.Left("Unknown Error. \(error.description)")
+        case .paperAccessDenied(let paperAccessError):
+            switch paperAccessError {
+            case .notPaperUser:
+                return Either.Left("The provided user has not used Paper yet.")
+            case .paperDisabled:
+                return Either.Left("Paper is disabled.")
+            case .other:
+                return Either.Left("Unknown Error. \(paperAccessError.description)")
+            }
+        case .invalidAccountType(let invalidAccountTypeError):
+            switch invalidAccountTypeError {
+            case .endpoint:
+                return Either.Left("Current account type doesn’t have permission to access this route endpoint.")
+            case .feature:
+                return Either.Left("Current account type doesn’t have permission to access this feature.")
+            case .other:
+                return Either.Left("Unkown Error. \(invalidAccountTypeError.description)")
+                
+            }
+        }
+    }
+    
+    func handleRateLimitError<R>(_ error: Auth.RateLimitError) -> Either<String, R> {
+        return Either.Left("Rate Limitted. \(error.reason) Retry after: \(error.retryAfter)")
+    }
+    
+    func download(path: String, _ handler: @escaping (Either<String, Data>) -> Void) {
         client().map { client in
             client.files.download(path: path).response { result, error in
                 result.map { result in
                     let data = result.1
-                    handler(data)
+                    handler(Either.Right(data))
                 }
-                error.map { fatalError("download failed. \($0.description)") }
+                error.map {
+                     switch $0 {
+                     case .internalServerError(let code, let message, _):
+                            handler(Either.Left("Internal Server Error. Code: \(code) \(message ?? "")"))
+                     case .httpError(let code, let message, _):
+                        handler(Either.Left("Http Error. Code: \(code ?? 0), \(message ?? "")"))
+                     case .clientError(let clientError):
+                        clientError.map { e in
+                            handler(Either.Left("\(e.localizedDescription)"))
+                        }
+                     case .badInputError(let message, _):
+                        handler(Either.Left("Bad Input: \(message ?? "")"))
+                     case .authError(let authError, _, _, _):
+                        handler(self.handleAuthError(authError))
+                     case .accessError(let accessError, _, _, _):
+                        handler(self.handleAccessError(accessError))
+                     case .rateLimitError(let error, _, _, _):
+                        handler(self.handleRateLimitError(error))
+                     case let .routeError(box, _, _, _):
+                        switch box.unboxed as Files.DownloadError {
+                        case .other:
+                            handler(Either.Left("Unknown Error."))
+                        case .path(let lookupError):
+                            switch lookupError {
+                            case .malformedPath(let path):
+                                handler(Either.Left("malformed path. \(path ?? "")"))
+                            case .notFile:
+                                handler(Either.Left("Not a File."))
+                            case .notFolder:
+                                handler(Either.Left("Not a Folder."))
+                            case .notFound:
+                                self.expireCache(self.directoryFor(path: path))
+                                handler(Either.Left("\(path) not Found."))
+                            case .restrictedContent:
+                                handler(Either.Left("\(path) is restricted. can not download."))
+                            case .other:
+                                handler(Either.Left("Unknown Error."))
+                            }
+                        }
+                     }
+                }
             }
         }
     }

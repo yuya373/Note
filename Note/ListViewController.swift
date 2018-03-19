@@ -180,6 +180,10 @@ extension ListViewController: UITableViewDelegate {
                 let file = files[indexPath.row]
                 vc.file = file
                 vc.hidesBottomBarWhenPushed = true
+                vc.reloadList = {
+                    self.activityIndicatorView.startAnimating()
+                    self.loadData(expireCache: false)
+                }
                 navigationController?.pushViewController(vc, animated: true)
             }
         }

@@ -20,6 +20,7 @@ class FileDetailViewController: UIViewController {
     var file: File!
     var fileDetailViewUrl: URL!
     var dataAsString: String?
+    var reloadList: (() -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -106,27 +107,37 @@ class FileDetailViewController: UIViewController {
 
 extension FileDetailViewController: WKNavigationDelegate {
     private func loadFileContents(webView: WKWebView) {
-        DropboxCache.instance.download(path: file.pathLower!) { data in
-            if let str = String(bytes: data, encoding: String.Encoding.utf8) {
-                self.dataAsString = str
-                self.editButton.isEnabled = true
-                
-                let exp = str.trimmingCharacters(in: .whitespacesAndNewlines).replacingOccurrences(of: "'", with: "\\'").components(separatedBy: .newlines).joined(separator: "\\n")
-                
-                
-                let js = """
-                try {
-                insert('\(exp)', '\(self.file.name ?? "")');
-                } catch(e) {
-                alert(e);
-                }
-                """
-                
-                webView.evaluateJavaScript(js, completionHandler: { result, error in
-                    result.map { print("result: \($0)") }
-                    error.map { print("error: \($0)") }
+        DropboxCache.instance.download(path: file.pathLower!) { result in
+            switch result {
+            case .Left(let errorMessage):
+                let alert = UIAlertController(title: "Download Failed", message: errorMessage, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
+                    self.reloadList?()
+                    self.navigationController?.popViewController(animated: true)
+                }))
+                self.present(alert, animated: true, completion: nil)
+            case .Right(let data):
+                if let str = String(bytes: data, encoding: String.Encoding.utf8) {
+                    self.dataAsString = str
+                    self.editButton.isEnabled = true
                     
-                })
+                    let exp = str.trimmingCharacters(in: .whitespacesAndNewlines).replacingOccurrences(of: "'", with: "\\'").components(separatedBy: .newlines).joined(separator: "\\n")
+                    
+                    
+                    let js = """
+                    try {
+                    insert('\(exp)', '\(self.file.name ?? "")');
+                    } catch(e) {
+                    alert(e);
+                    }
+                    """
+                    
+                    webView.evaluateJavaScript(js, completionHandler: { result, error in
+                        result.map { print("result: \($0)") }
+                        error.map { print("error: \($0)") }
+                        
+                    })
+                }
             }
             self.activityIndicatorView.stopAnimating()
         }
